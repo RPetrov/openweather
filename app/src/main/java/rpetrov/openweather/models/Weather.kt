@@ -1,4 +1,4 @@
-package rpetrov.openweather
+package rpetrov.openweather.models
 
 data class Weather(
     val base: String,

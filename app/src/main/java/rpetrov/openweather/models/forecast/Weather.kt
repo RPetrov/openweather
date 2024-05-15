@@ -1,6 +1,6 @@
-package rpetrov.openweather
+package rpetrov.openweather.models.forecast
 
-data class WeatherX(
+data class Weather(
     val description: String,
     val icon: String,
     val id: Int,

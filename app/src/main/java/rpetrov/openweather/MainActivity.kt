@@ -16,6 +16,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import rpetrov.openweather.models.Weather
+import rpetrov.openweather.models.WeatherAPI
+import rpetrov.openweather.models.forecast.Forecast
 
 
 /**
@@ -69,20 +72,33 @@ class MainActivity : AppCompatActivity() {
         locationProvider.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 weatherApi.cardWeather(location.latitude, location.longitude)?.enqueue(object : Callback<Weather?> {
-                        override fun onResponse(p0: Call<Weather?>, p1: Response<Weather?>) {
-                            val temp = findViewById<TextView>(R.id.temp)
-                            val hidro = findViewById<TextView>(R.id.hidro)
-                            val description = findViewById<TextView>(R.id.description)
+                    override fun onResponse(p0: Call<Weather?>, p1: Response<Weather?>) {
+                        val temp = findViewById<TextView>(R.id.temp)
+                        val hidro = findViewById<TextView>(R.id.hidro)
+                        val description = findViewById<TextView>(R.id.description)
 
-                            temp.text = p1.body()?.main?.temp.toString()
-                            hidro.text = p1.body()?.main?.humidity.toString()
-                            description.text = p1.body()?.weather?.firstOrNull()?.description
-                        }
+                        temp.text = p1.body()?.main?.temp.toString()
+                        hidro.text = p1.body()?.main?.humidity.toString()
+                        description.text = p1.body()?.weather?.firstOrNull()?.description
+                    }
 
-                        override fun onFailure(p0: Call<Weather?>, p1: Throwable) {
-                            Log.e("main_activity", p1.message, p1)
+                    override fun onFailure(call: Call<Weather?>, throwable: Throwable) {
+                        Log.e("main_activity", throwable.message, throwable)
+                    }
+                })
+
+
+                weatherApi.forecast(location.latitude, location.longitude)?.enqueue(object : Callback<Forecast?> {
+                    override fun onResponse(call: Call<Forecast?>, response: Response<Forecast?>) {
+                        response.body()?.list?.forEach {
+                            Log.i("main_activity", it.toString())
                         }
-                    })
+                    }
+
+                    override fun onFailure(call: Call<Forecast?>, throwable: Throwable) {
+                        Log.e("main_activity", throwable.message, throwable)
+                    }
+                })
             }
         }.addOnFailureListener {
             Toast.makeText(this@MainActivity, "error ${it.message}", Toast.LENGTH_SHORT).show()

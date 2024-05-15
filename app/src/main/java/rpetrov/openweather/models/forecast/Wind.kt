@@ -1,4 +1,4 @@
-package rpetrov.openweather
+package rpetrov.openweather.models.forecast
 
 data class Wind(
     val deg: Int,
