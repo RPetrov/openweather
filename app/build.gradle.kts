@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "rpetrov.openweather"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -30,13 +30,24 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    android {
+        packagingOptions {
+            resources.excludes.add("META-INF/*")
+        }
+    }
 }
 
 dependencies {
 
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
+    implementation("com.github.prominence:openweathermap-api:2.3.0")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
