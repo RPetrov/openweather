@@ -19,6 +19,6 @@ interface ForecastService {
     ): Call<WeatherForecast>
 
     companion object {
-        private const val API_KEY = "3f59ab8914d4991b70c19816f7f36892"
+        private const val API_KEY = "NO_KEY"
     }
 }
